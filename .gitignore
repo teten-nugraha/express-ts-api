@@ -6,3 +6,6 @@
 /src/generated/prisma
 
 /src/generated/prisma
+
+/log/app.log
+/log/error.log
