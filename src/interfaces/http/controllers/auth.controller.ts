@@ -4,6 +4,7 @@ import { LoginUseCase } from '../../../application/auth/login.usecase';
 import { successResponse } from '../responses/response.factory';
 import { RegisterUseCase } from '../../../application/auth/register.usecase';
 import { RefreshTokenUseCase } from '../../../application/auth/refresh-token.usecase';
+import { LogoutUseCase } from '../../../application/auth/logout.usecase';
 
 @injectable()
 export class AuthController {
@@ -11,6 +12,7 @@ export class AuthController {
     private readonly loginUseCase: LoginUseCase,
     private readonly registerUseCase: RegisterUseCase,
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
+    private readonly logoutUseCase: LogoutUseCase,
   ) {}
 
   async login(req: Request, res: Response) {
@@ -48,5 +50,13 @@ export class AuthController {
     const result = await this.refreshTokenUseCase.execute(refreshToken);
 
     return res.json(successResponse(result, 'Token refreshed'));
+  }
+
+  async logout(req: Request, res: Response) {
+    const { refreshToken } = req.body;
+
+    await this.logoutUseCase.execute(refreshToken);
+
+    return res.json(successResponse(null, 'Logout successful'));
   }
 }

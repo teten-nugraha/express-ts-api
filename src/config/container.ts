@@ -7,6 +7,7 @@ import { RegisterUseCase } from '../application/auth/register.usecase';
 import { RefreshTokenUseCase } from '../application/auth/refresh-token.usecase';
 import { RefreshTokenRepository } from '../domain/auth/refresh-token.repository';
 import { RefreshTokenPrismaRepository } from '../infrastructure/repositories/refresh-token.repository.prisma';
+import { LogoutUseCase } from '../application/auth/logout.usecase';
 
 /// REPOSITORY
 container.register<UserRepository>('UserRepository', {
@@ -23,3 +24,4 @@ container.register(UserUseCase, {
 container.register(LoginUseCase, { useClass: LoginUseCase });
 container.register(RegisterUseCase, { useClass: RegisterUseCase });
 container.register(RefreshTokenUseCase, { useClass: RefreshTokenUseCase });
+container.register(LogoutUseCase, { useClass: LogoutUseCase });
