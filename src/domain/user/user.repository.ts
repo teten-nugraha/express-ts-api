@@ -5,4 +5,5 @@ export interface UserRepository {
   create(data: CreateUserProps): Promise<User>;
   findAll(): Promise<User[]>;
   findCredentialByEmail(email: string): Promise<User | null>;
+  findById(id: string): Promise<User | null>;
 }

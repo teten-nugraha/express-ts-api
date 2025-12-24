@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { container } from 'tsyringe';
 import { UserController } from '../controllers/user.controller';
 import { validate } from '../middlewares/validate-request';
-import { CreateUserSchema } from '../dtos/user/create-user.dto';
+import { CreateUserSchema } from '../validators/user/create-user.dto';
 import { authorizeRoles } from '../middlewares/role.middleware';
 import { authenticateJwt } from '../middlewares/auth.middleware';
 

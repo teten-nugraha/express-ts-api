@@ -3,12 +3,14 @@ import { injectable } from 'tsyringe';
 import { LoginUseCase } from '../../../application/auth/login.usecase';
 import { successResponse } from '../responses/response.factory';
 import { RegisterUseCase } from '../../../application/auth/register.usecase';
+import { RefreshTokenUseCase } from '../../../application/auth/refresh-token.usecase';
 
 @injectable()
 export class AuthController {
   constructor(
     private readonly loginUseCase: LoginUseCase,
     private readonly registerUseCase: RegisterUseCase,
+    private readonly refreshTokenUseCase: RefreshTokenUseCase,
   ) {}
 
   async login(req: Request, res: Response) {
@@ -38,5 +40,13 @@ export class AuthController {
     };
 
     return res.status(201).json(successResponse(publicUser, 'User registered successfully'));
+  }
+
+  async refreshToken(req: Request, res: Response) {
+    const { refreshToken } = req.body;
+
+    const result = await this.refreshTokenUseCase.execute(refreshToken);
+
+    return res.json(successResponse(result, 'Token refreshed'));
   }
 }

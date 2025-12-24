@@ -3,12 +3,16 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserRepository } from '../../domain/user/user.repository';
 import { ValidationError } from '../errors/validation-error';
+import { RefreshTokenRepository } from '../../domain/auth/refresh-token.repository';
+import { signAccessToken, signRefreshToken } from './jwt.service';
 
 @injectable()
 export class LoginUseCase {
   constructor(
     @inject('UserRepository')
     private readonly userRepo: UserRepository,
+    @inject('RefreshTokenRepository')
+    private readonly refreshTokenRepository: RefreshTokenRepository,
   ) {}
 
   async execute(email: string, password: string) {
@@ -17,17 +21,28 @@ export class LoginUseCase {
       throw new ValidationError('Invalid email or password');
     }
 
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      throw new ValidationError('Invalid password');
-    }
+    // 🔐 Access Token
+    const accessToken = signAccessToken({
+      sub: user.id,
+      role: user.role,
+    });
 
-    const token = jwt.sign({ sub: user.id, role: user.role }, process.env.JWT_SECRET!, {
-      expiresIn: '1h',
+    // 🔁 Refresh Token
+    const refreshToken = signRefreshToken({
+      sub: user.id,
+    });
+
+    await this.refreshTokenRepository.create({
+      token: refreshToken,
+      userId: user.id,
+      expiresAt: new Date(
+        Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
+      ),
     });
 
     return {
-      accessToken: token,
+      accessToken,
+      refreshToken,
       user: {
         id: user.id,
         email: user.email,
