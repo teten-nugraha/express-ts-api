@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { UserRepository } from '../../domain/user/user.repository';
-import {CreateUserProps} from "../../domain/user/user.public";
+import { CreateUserProps } from '../../domain/user/user.public';
 
 @injectable()
 export class UserUseCase {
@@ -9,7 +9,7 @@ export class UserUseCase {
     private readonly userRepo: UserRepository,
   ) {}
 
-  async createUser(data:CreateUserProps) {
+  async createUser(data: CreateUserProps) {
     return this.userRepo.create(data);
   }
 
