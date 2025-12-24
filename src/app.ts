@@ -2,7 +2,7 @@ import './config/container';
 import express from 'express';
 import userRoutes from './interfaces/http/routes/user.route';
 import { errorMiddleware } from './interfaces/http/middlewares/error.middleware';
-import { requestLogger } from "./interfaces/http/middlewares/request-logger.middleware";
+import { requestLogger } from './interfaces/http/middlewares/request-logger.middleware';
 
 const app = express();
 

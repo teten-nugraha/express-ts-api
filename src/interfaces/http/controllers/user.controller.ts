@@ -2,14 +2,23 @@ import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
 import { UserUseCase } from '../../../application/user/user.usecase';
 import { successResponse } from '../responses/response.factory';
+import { CreateUserProps } from '../../../domain/user/user.public';
 
 @injectable()
 export class UserController {
   constructor(private readonly userUseCase: UserUseCase) {}
 
   async create(req: Request, res: Response) {
-    const { email, name } = req.body;
-    const user = await this.userUseCase.createUser(email, name);
+    const { email, password, name } = req.body;
+
+    const userData: CreateUserProps = {
+      email: email,
+      password: password,
+      name: name,
+      role: 'USER',
+    };
+
+    const user = await this.userUseCase.createUser(userData);
     res.status(201).json(successResponse(user, 'User created successfully.'));
   }
 
