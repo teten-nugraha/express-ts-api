@@ -1,7 +1,7 @@
 import { UserRepository } from '../../domain/user/user.repository';
 import { prisma } from '../database/prisma';
 import { User } from '../../domain/user/user.entity';
-import { injectable } from "tsyringe";
+import { injectable } from 'tsyringe';
 
 @injectable()
 export class UserPrismaRepository implements UserRepository {
