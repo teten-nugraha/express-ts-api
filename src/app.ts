@@ -1,9 +1,11 @@
+import "./config/container"; // OK, setelah reflect-metadata
+
 import express from "express";
-import healthRoute from "./routes/health.route";
+import userRoutes from "./interfaces/http/routes/user.route";
 
 const app = express();
 
 app.use(express.json());
-app.use("/health", healthRoute);
+app.use("/users", userRoutes);
 
 export default app;
