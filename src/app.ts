@@ -1,5 +1,6 @@
 import './config/container';
 import express from 'express';
+import './infrastructure/auth/passport';
 import userRoutes from './interfaces/http/routes/user.route';
 import authRoutes from './interfaces/http/routes/auth.route';
 import { errorMiddleware } from './interfaces/http/middlewares/error.middleware';
