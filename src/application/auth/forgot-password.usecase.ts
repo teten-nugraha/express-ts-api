@@ -36,6 +36,14 @@ export class ForgotPasswordUseCase {
 
     const link = `${process.env.FRONTEND_URL}/reset-password?token=${rawToken}`;
 
-    await this.emailService.sendResetPassword(user.email, link);
+    // 🚀 SEND EMAIL IN BACKGROUND (NON-BLOCKING)
+    setImmediate(async () => {
+      try {
+        await this.emailService.sendResetPassword(user.email, link);
+      } catch (err) {
+        // 🔥 IMPORTANT: log error, jangan throw
+        console.error('Failed to send reset password email', err);
+      }
+    });
   }
 }
