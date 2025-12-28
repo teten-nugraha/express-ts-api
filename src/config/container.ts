@@ -8,6 +8,11 @@ import { RefreshTokenUseCase } from '../application/auth/refresh-token.usecase';
 import { RefreshTokenRepository } from '../domain/auth/refresh-token.repository';
 import { RefreshTokenPrismaRepository } from '../infrastructure/repositories/refresh-token.repository.prisma';
 import { LogoutUseCase } from '../application/auth/logout.usecase';
+import { EmailService } from '../infrastructure/email/email.service';
+import { NodemailerEmailservice } from '../infrastructure/email/nodemailer.emailservice';
+import { PasswordResetRepository } from '../domain/auth/password-reset.repository';
+import { ForgotPasswordUseCase } from '../application/auth/forgot-password.usecase';
+import { PasswordResetPrismaRepository } from '../infrastructure/repositories/password-reset.repository.prisma';
 
 /// REPOSITORY
 container.register<UserRepository>('UserRepository', {
@@ -15,6 +20,9 @@ container.register<UserRepository>('UserRepository', {
 });
 container.register<RefreshTokenRepository>('RefreshTokenRepository', {
   useClass: RefreshTokenPrismaRepository,
+});
+container.register<PasswordResetRepository>('PasswordResetRepository', {
+  useClass: PasswordResetPrismaRepository,
 });
 
 /// USE CASE
@@ -25,3 +33,7 @@ container.register(LoginUseCase, { useClass: LoginUseCase });
 container.register(RegisterUseCase, { useClass: RegisterUseCase });
 container.register(RefreshTokenUseCase, { useClass: RefreshTokenUseCase });
 container.register(LogoutUseCase, { useClass: LogoutUseCase });
+container.register(ForgotPasswordUseCase, { useClass: ForgotPasswordUseCase });
+container.register<EmailService>('EmailService', {
+  useClass: NodemailerEmailservice,
+});

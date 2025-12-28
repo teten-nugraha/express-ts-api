@@ -5,6 +5,7 @@ import { successResponse } from '../responses/response.factory';
 import { RegisterUseCase } from '../../../application/auth/register.usecase';
 import { RefreshTokenUseCase } from '../../../application/auth/refresh-token.usecase';
 import { LogoutUseCase } from '../../../application/auth/logout.usecase';
+import { ForgotPasswordUseCase } from '../../../application/auth/forgot-password.usecase';
 
 @injectable()
 export class AuthController {
@@ -13,6 +14,7 @@ export class AuthController {
     private readonly registerUseCase: RegisterUseCase,
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
     private readonly logoutUseCase: LogoutUseCase,
+    private readonly forgotPasswordUseCase: ForgotPasswordUseCase,
   ) {}
 
   async login(req: Request, res: Response) {
@@ -58,5 +60,11 @@ export class AuthController {
     await this.logoutUseCase.execute(refreshToken);
 
     return res.json(successResponse(null, 'Logout successful'));
+  }
+
+  async forgotPassword(req: Request, res: Response) {
+    await this.forgotPasswordUseCase.execute(req.body.email);
+
+    return res.json(successResponse(null, 'If the email exists, a reset link has been sent'));
   }
 }

@@ -8,6 +8,11 @@ const envSchema = z.object({
   APP_VERSION: z.string(),
   JWT_SECRET: z.string(),
   DATABASE_URL: z.string(),
+  MAIL_HOST: z.string(),
+  MAIL_USERNAME: z.string(),
+  MAIL_PASSWORD: z.string(),
+  MAIL_PORT: z.string().transform(Number),
+  FRONTEND_URL: z.string().transform(Number),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -24,4 +29,9 @@ export const env = {
   appVersion: parsedEnv.data.APP_VERSION,
   jwtSecret: parsedEnv.data.JWT_SECRET,
   databaseUrl: parsedEnv.data.DATABASE_URL,
+  mailHost: parsedEnv.data.MAIL_HOST,
+  mailUsername: parsedEnv.data.MAIL_USERNAME,
+  mailPassword: parsedEnv.data.MAIL_PASSWORD,
+  mailPort: parsedEnv.data.MAIL_PORT,
+  frontendUrl: parsedEnv.data.FRONTEND_URL,
 };

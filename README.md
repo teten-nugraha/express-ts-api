@@ -40,3 +40,4 @@ src
 ├── types            # Global typings (Express, Auth)
 ├── app.ts
 └── server.ts
+```
